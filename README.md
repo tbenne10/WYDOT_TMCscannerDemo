@@ -7,6 +7,6 @@ Requires Java 8 to run.
 
 To run the mock program, navigate to out>artifacts>scannerdemo>TMCscannerDemo.jar. Logs will be saved in resources/logs.
 
-If you are a member of TMC for another state and are interested in implementing this program to your own state's needs, please contact me via GitHub.
+If you are a member of TMC for another state and are interested in implementing this program to your own state's needs, please contact me via email @trystanbennett1996@gmail.com
 
 <img width="1392" alt="screen shot 2019-01-18 at 8 10 09 pm" src="https://user-images.githubusercontent.com/22963234/51421577-28af5b00-1b5d-11e9-93ec-3fedf7d40582.png">
