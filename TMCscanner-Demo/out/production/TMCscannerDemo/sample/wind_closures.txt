@@ -1,0 +1,52 @@
+##Wind_closures.txt## -> List "Number of sensors, Closure message" then follow with Sensor ID values.
+1,I25 Between CO and Cheyenne
+178024
+3,I25 between Cheyenne and Wheatland
+178015
+178038
+178020
+1,I25 between Wheatland and Douglas/Orin jct
+20100009
+1,I25 between Douglas/Orin jct and Casper
+178019
+2,I25 between Casper and Buffalo
+178008
+178007
+7,I80 between Cheyenne and Laramie
+20100011
+178014
+178033
+178034
+20100010
+178035
+178036
+14,I80 between Laramie and Walcott Jct
+20100012
+20100013
+20100014
+20100015
+20100016
+178000
+20100017
+20100025
+20100018
+20100019
+20100020
+20100021
+20100022
+20100023
+1,I80 between Rawlins and Walcott jct
+20100024
+1,I90 between Sheridan and Buffalo
+178027
+3,I90 between Buffalo and Gillette
+20100034
+178010
+20100035
+1,I90 between Gillette and Sundance
+178011
+1,WY 258 Casper Outer Drive
+178046
+2,WY 28 South Pass
+20100008
+20100007

@@ -1,0 +1,143 @@
+district, sensor_id,Town,sensor_number, sensor_location, additional_info
+1,178026,Cheyenne, 0, I-25 SB bridge deck MP 3.29, SB driving lane
+,178026,, 1, I-25 SB bridge deck MP 3.29, SB passing lane
+,178026,, 2,, sensor (2)
+1,178024,Cheyenne, 0, I-25 WyoHill MP 3.52,-
+1,178025,Cheyenne, 0, I-25 NB bridge deck MP 4, SB driving lane
+,178025,, 1,, SB passing lane
+,178025,, 2,, NB passing lane
+,178025,, 3,, NB driving lane
+1,178015,Cheyenne N/Chugwater S, 0, I-25 Whitaker MP 30, SB driving lane
+,178015,, 1,, (1)
+1,178001,Rawlins/Wamsutter, 0, I-80 Continental Divide MP 184, EBL bridge deck
+2,178001,,,,-
+1,20100024,Rawlins E,0, I-80 Sinclair MP 221, EB driving lane
+1,20100023,Elk Mt. W/Saratoga/Rawlins/MedBow, 0, I-80 Walcott Jnct. MP 234,-
+1,20100022,Elk Mt. W, 0, I-80 Dana Ridge MP 244, EB driving lane
+1,20100021,Elk Mt. W, 0, I-80 MP 249,-
+1,20100020,Elk Mt. W, 0, I-80 Halleck Ridge MP 252, WB driving lane
+1,20100019,Elk Mt. W, 0, I-80 Elk Mt. MP 256,-
+1,20100018,Elk Mt. E, 0, I-80 Picture Turnout MP 262, EB driving lane
+1,20100025,Elk Mt. E, 0, I-80 Wagonhound MP 266, WB driving lane
+1,20100017,Arlington W, 0, I-80 Foote Creek MP 269,-
+1,178000,Arlington, 0, I-80 Arlington MP 272, WBL bridge deck
+,178000,, 1,, WBL passing lane
+1,20100016,Arlington, 0, I-80 Hickson Hill MP 273, EB driving lane
+1,20100015,Arlington E, 0, I-80 Cooper Cove MP 280, WB driving lane
+1,20100014,Laramie W, 0, I-80 Strauss Hill MP 283,-
+1,20100013,Laramie W, 0, I-80 Quealy Dome MP 289,-
+1,20100012,Laramie W, 0, I-80 Herrick Lane MP 297, WBL
+1,20100011,Laramie E up., 0, I-80 Summit East MP 325, NBL
+1,178014,Laramie E up., 0, I-80 Vedauwoo MP 329, EBL bridge deck
+,178014,, 1,, EBL driving
+1,178022,Laramie E up., 0, I-80 Vedauwoo vis,-
+1,178033,Laramie E up., 0, I-80 Lone Tree MP 333.3, EB driving lane
+1,178034,Laramie E/Cheyenne W, 0, I-80 Buford East MP 336, WB driving lane
+1,20100010,Cheyenne W up., 0, I-80 Remount MP 340, WBL (0)
+,20100010,, 1,, WBL (1)
+1,178035,Cheyenne W up/lwr, 0, I-80 Otto Road MP 347, WB driving lane (0)
+,178035,, 1,, (1)
+1,178036,Cheyenne W lwr., 0, I-80 MP 353, WB driving lane
+1,178037,Cheyenne E, 0, I-80 MP 373, ?
+1,20100004,Pine Bluffs, 0, US 85 Gun Barrel MP 47, US85@CR 149(0)
+,20100004,, 1,, SB (1)
+1,178013,Laramie, 0, US 287 Pumpkin Vine MP 420, SB driving lane (0)
+1,178013,Laramie, 0, US 287 Pumpkin Vine MP 420, (1)
+1,20100042,Cheyenne, 0, WY 210 Wildcat Trail MP 22, EB driving lane
+1,20100043,Cheyenne W up., 0, WY 210 Hynds Lodge MP 25, WB driving lane
+1,20100003,Saratoga, 0, WY 230 Skyline MP 113, WB (0)
+,20100003,, 1,, EB (1)
+2,178038, Chugwater S,0,I-25 Bear Creek MP 47, SB driving lane (0)
+2,178020, Chugwater N/Wheatland S,0,I-25 Bordeaux MP 71, SB driving lane (0)
+,178020,,1,,SB driving lane(1)
+2,20100009, Wheatland N,0,I-25 Coleman MP 99,S B driving lane (0)
+2,20100044, Douglas S,0,I-25 Orin Junction MP 120,-
+2,178019, Douglas N/Casper S,0,I-25 Deer Creek MP 164, SB driving lane (0)
+,178019,,1,,SB driving lane(1)
+2,178047, Casper N,0,I-25 F Street Hill MP 190,(0)
+,178047,,1,,(1)
+,178047,,2,,(2)
+2,178007, Casper N,0,I-25 Twenty Mile Hill MP 207, SB driving lane (0)
+,178007,,1,,(1)
+2,178008, Kaycee N/Buffalo S,0,I-25 Divide MP 267,SB driving lane (0)
+,178008,,1,,SB driving (1)
+2,178044, Casper W,0,US 20/26 Natrona MP 30, EB driving lane
+2,178006, Casper/Muddy Gap N,0,WY 220 Pathfinder MP 80, South of tower
+,178006,,1,,East of tower
+2,178046, Casper,0,WY 258 Outer Drive MP 14,EB driving lane
+2,178043, Shirley Basin,0,WY 487 Shirley Rim MP 37, NB driving lane
+2,20100037, Reno Jct/Gillette S/Midwest, 0, WY 387 Pine Tree Jct MP 132, NB driving lane
+3,20100032, Evanston W, 0, I-80 Evanston MP 4.2, EB driving lane
+3,178028, Evanston E to MP 18, 0, I-80 Painter Interchange MP 10.16, WB driving lane
+3,178017, Evanston E to MP 18, 0, I-80 First Divide MP 14, EB bridge deck (0)
+,178017,,1,,EB Driving lane (1)
+3,178029, Evanston E to 18 + 18 -> 28, 0, I-80 US 189 Interchange MP 18, WB Driving lane
+3,178030, Evanston E to 18 + 18 -> 28, 0, I-80 Coal Road MP 21,WB Driving lane
+3,178031, Evanston E to 18 + 18 -> 28, 0, I-80 Leroy Interchange MP 23, WB Driving lane
+3,178032, Lyman W/Evanston E to 18 + 18 -> 28, 0, I-80 French Interchange MP 28, WB Driving lane
+3,20100031, Lyman E, 0, I-80 Church Butte MP 53,-
+3,178018, Granger E, 0, I-80 Peru Hill MP 82, EB bridge deck
+3,178021, Rock Springs W Sec 1 & 2, 0, I-80 Green River Tunnel MP 91, I-80 Approach (0)
+,178021,,1,,WB Bridge deck (1)
+,178021,,2,,WB Tunnel Approach (2)
+,178021,,3,,WB Tunnel (3)
+,178021,,4,,EB Tunnel Approach (4)
+,178021,,5,,EB Tunnel (5)
+3,20100030, Rock Springs W sec 1 & 2, 0, I-80 Rock Springs W MP 98,EB driving lane
+3,20100029, Rock Springs E, 0, I-80 Baxter Road MP 112, WB driving lane
+3,20100028, Rock Springs E, 0, I-80 MP 124.5, WB driving lane
+3,20100027,Rock Springs E/Patrick Draw W & E, 0, I-80 Point of Rocks MP 130, WB driving lane
+3,178002, Patrick Draw W & E, 0, I-80 Bitter Creek MP 142, EB driving lane
+3,20100026, Patrick Draw E/ Wamsutter W, 0, I-80 Tipton MP 157, WB driving lane
+3,178001,,,,-
+3,20100001, Cokeville S, 0, US 30 Sage Junction MP 34, Westbound (0)
+,20100001,,1,, Eastbound (1)
+3,178041, Farson (all), 0, US 191 Farson MP 40, EB driving lane
+3,20100002, Pinedale (Daniel Jct and Bondurant), 0, US 191 Rim MP 127, Approach (0)
+,20100002,,1,, Southbound (1)
+3,178023, Jackson (Teton Pass), 0, WY 22 Teton Pass MP 11, EB outside track (0)
+,178023,,1,, WB outside track (1)
+3,20100006, LaBarge, 0, WY 372 Shute Creek MP 36, Northbound (0)
+,20100006,,1,,Southbound (1)
+3,20100039, Kemmerer, 0, US 30 Nugget Canyon MP 40,-
+3,20100053, Evanston W, 0, I-80 Utah State Line MP 0,-
+3,20100052, Evanston W, 0, I-80 MP 6.64,-
+4,178040, Pole Creek/Ten Sleep sec 3,0,US 16 Big Horn cn Line MP 44, WB driving lane
+4,178008,,,,-
+4,2010033, Sheridan N, 0, I-90 Montana state line MP 1, EB driving lane
+4,178009, Sheridan S/Buffalo N, 0, I-90 Piney Creek N MP 43.66, WB Bridge deck (0)
+4,20100056, Sheridan E/Buffalo S, 0, US-14/16 Ucross intersection MP 28,-
+4,20100057, Burgess Jct., 0, US-14 Granite Pass between Elk View and WB closure gate MP 38,-
+,178009,,1,,EB bridge deck (1)
+,178009,,2,,WB passing lane
+4,178027, Sheridan S/Buffalo N, 0, I-90 Piney Creek Interchange MP 44.2,WB 1st bridge (0)
+,178027,,1,,EB 1st bridge (1)
+,178027,,2,,WB Ditch Bridge(2)
+,178027,,3,,EB Ditch Bridge(3)
+4,20100034, Buffalo E, 0, I-90 Indian Creek Road MP 83,-
+4,178010, Buffalo E, 0,  I-90 Dead Horse MP 92,-
+4,20100035, Gillette W, 0, I-90 MP 108,-
+4,178011, Sundance W, 0, I-90 Inya Kara MP 171, EB Bridge deck (0)
+,178011,,1,,EB driving lane (1)
+4,20100036, Sundance E, 0, I-90 Beulah MP 210, EB Driving lane (0)
+,20100036,,1,,WB Driving lane (1)
+4,178012, Reno Jct N, 0, WY 59 Belle Fourche MP 87, NB bridge Deck (0)
+,178012,,1,, NB Driving (1)
+4,20100037,,,,-
+4,20100050, Sheridan E, 0, I-90 Pompey Creek MP 35,-
+4,20100049, Sheridan E, 0, I-90 MP 41.33,-
+4,20100048, Buffalo N (West), 0,I-90 Kearney Divide MP 45,-
+5,178040,,,,-
+5,178005,Shoshoni sec 3,0,US 20/26 Hiland MP 57, EB driving lane (0)
+,178005,,1,,EB driving lane (1)
+5,178042,Dubois sec 1 (TogWottee Pass), 0,US 20/26 Wind River Lake MP 26, Post weather condition - WB driving ln (0)
+5,178003,Lander sec 1, 0, US 287/789 Beaver Rim MP 48, NB driving lane
+,178003,,1,,WB driving lane
+5,20100007, South Pass Sec 3, 0, Wy 28 New South Pass MP 41, WB near tower (0)
+,20100007,,1,, WB east of tower(1)
+,20100007,,1,, EB east of tower (2)
+5,20100008, South Pass sec 2, 0, WY 28 Red Canyon MP 60,-
+5,178004, Meeteetse sec 2, 0, WY 120 Meeteetse Rim MP 61.5, South (0)
+,178004,,1,,North (1)
+5,20100005, Cody Sec 6, 0, WY 296 Chief Joseph MP 33, Overlook (0)
+,20100005,,1,,Northbound(1)

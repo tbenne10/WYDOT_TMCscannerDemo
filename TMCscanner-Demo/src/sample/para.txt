@@ -1,0 +1,5 @@
+Max Visibility:-6560
+High Wind:-40
+EborDropTime:-60
+RefreshTime:-15
+Audio filename:-alert.mp3

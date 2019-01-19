@@ -1,0 +1,40 @@
+Jan 18, 2019 6:55:48 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 6:55:48 PM sample.AlertLogic setTableRow
+INFO: 1: 20100010  I-80 Remount MP 340 Cheyenne W up.Dangerous Wind 60+ MPH (@67 MPH)
+Jan 18, 2019 6:55:48 PM sample.AlertLogic setTableRow
+INFO: 0: Close road section I80 between Cheyenne and Laramie
+Jan 18, 2019 6:55:48 PM sample.AlertLogic setTableRow
+INFO: 4: 20100050  I-90 Pompey Creek MP 35  Sheridan EDangerous Wind 60+ MPH (@62 MPH)
+Jan 18, 2019 6:56:18 PM sample.AlertLogic setTableRow
+INFO: 4: 178011  I-90 Inya Kara MP 171  Sundance WDangerous Wind 60+ MPH (@67 MPH)
+Jan 18, 2019 6:56:18 PM sample.AlertLogic setTableRow
+INFO: 0: Close road section I90 between Gillette and Sundance
+Jan 18, 2019 6:56:18 PM sample.AlertLogic setTableRow
+INFO: 3: 178041  US 191 Farson MP 40  Farson (all)Low Visibility (@20 ft.)
+Jan 18, 2019 6:56:18 PM sample.AlertLogic setTableRow
+INFO: 1: 178037  I-80 MP 373 Cheyenne ELow Visibility (@25 ft.)
+Jan 18, 2019 7:31:58 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 7:34:13 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 7:34:50 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 7:35:07 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 7:37:51 PM sample.Controller initialize
+INFO: >....Application Start
+Jan 18, 2019 7:37:51 PM sample.AlertLogic setTableRow
+INFO: [1]: 20100010  I-80 Remount MP 340 Cheyenne W up.Dangerous Wind 60+ MPH (@67 MPH)
+Jan 18, 2019 7:37:51 PM sample.AlertLogic setTableRow
+INFO: 0: Close road section I80 between Cheyenne and Laramie
+Jan 18, 2019 7:37:51 PM sample.AlertLogic setTableRow
+INFO: [4]: 20100050  I-90 Pompey Creek MP 35  Sheridan EDangerous Wind 60+ MPH (@62 MPH)
+Jan 18, 2019 7:38:21 PM sample.AlertLogic setTableRow
+INFO: [4]: 178011  I-90 Inya Kara MP 171  Sundance WDangerous Wind 60+ MPH (@67 MPH)
+Jan 18, 2019 7:38:21 PM sample.AlertLogic setTableRow
+INFO: 0: Close road section I90 between Gillette and Sundance
+Jan 18, 2019 7:38:21 PM sample.AlertLogic setTableRow
+INFO: [3]: 178041  US 191 Farson MP 40  Farson (all)Low Visibility (@20 ft.)
+Jan 18, 2019 7:38:21 PM sample.AlertLogic setTableRow
+INFO: [1]: 178037  I-80 MP 373 Cheyenne ELow Visibility (@25 ft.)
