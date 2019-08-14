@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="520.0" maxWidth="382.0" minHeight="520.0" minWidth="284.0" prefHeight="520.0" prefWidth="284.0" style="-fx-background-color: #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c;" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.settingsController">
+<Pane maxHeight="520.0" maxWidth="365.0" minHeight="520.0" minWidth="365.0" prefHeight="520.0" prefWidth="365.0" style="-fx-background-color: #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c #3c3c3c;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.settingsController">
    <children>
       <Text fill="WHITE" layoutX="14.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Settings">
          <font>
             <Font name="Verdana Bold" size="18.0" />
          </font>
       </Text>
+      <JFXToggleButton fx:id="set_1" layoutX="15.0" layoutY="68.0" text="Disable Precipitation Changes" textFill="WHITE" />
+      <JFXToggleButton fx:id="set_2" layoutX="15.0" layoutY="108.0" text="Disable Wind Incrementation" textFill="WHITE" />
       <Text fill="WHITE" layoutX="25.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General rows:" />
+      <JFXToggleButton fx:id="set_3" layoutX="15.0" layoutY="193.0" text="Make Drop Alerts Priority" textFill="WHITE" />
+      <JFXToggleButton fx:id="set_4" layoutX="15.0" layoutY="233.0" text="Disable Wind Alarm Sound" textFill="WHITE" />
       <Text fill="WHITE" layoutX="25.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority rows:" />
+      <JFXToggleButton fx:id="set_5" layoutX="15.0" layoutY="273.0" text="Disable Black Ice Alarm Sound" textFill="WHITE" />
+      <JFXToggleButton fx:id="set_6" layoutX="15.0" layoutY="313.0" text="Disable Low-Visibility Alarm Sound" textFill="WHITE" />
       <Text fill="WHITE" layoutX="25.0" layoutY="409.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin: " />
-      <Button fx:id="save_button"  layoutX="105.0" layoutY="471.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="27.0" prefWidth="74.0" stylesheets="@styles.css" text="Save" />
-      <CheckBox layoutX="27.0" fx:id="set_1" layoutY="88.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Disable Precipitation Changes" />
-      <CheckBox layoutX="27.0" fx:id="set_2" layoutY="128.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Disable Wind Incrementation" />
-      <CheckBox layoutX="27.0" fx:id="set_3" layoutY="213.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Make Drop Alerts Priority" />
-      <CheckBox layoutX="27.0" fx:id="set_4" layoutY="253.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Disable Wind Alarm Sound" />
-      <CheckBox layoutX="27.0" fx:id="set_5" layoutY="293.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Disable Black Ice Alarm Sound" />
-      <CheckBox layoutX="27.0" fx:id="set_6" layoutY="333.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="277.0" stylesheets="@styles.css" text="Disable Low-Visibility Alarm Sound" />
-      <CheckBox layoutX="27.0" fx:id="set_7" layoutY="433.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="234.0" stylesheets="@styles.css" text="Lead Operator Mode" textFill="#ff9f9f" />
+      <JFXToggleButton fx:id="set_7" layoutX="15.0" layoutY="413.0" text="Lead Operator Mode" textFill="#ffa6a6" />
+      <Button fx:id="save_button" layoutX="146.0" layoutY="473.0" mnemonicParsing="false" onMouseClicked="#save" prefHeight="27.0" prefWidth="74.0" stylesheets="@styles.css" text="Save" />
    </children>
 </Pane>

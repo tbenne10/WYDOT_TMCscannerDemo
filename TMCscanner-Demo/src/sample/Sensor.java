@@ -20,7 +20,7 @@ public class Sensor {
      * The following variables are from CSV 1
      */
     private String Siteid = null;
-    private ArrayList<String> District = new ArrayList<>();
+    private String District = null;
     private String DtTm = null;
     private String AirTemp = null;
     private String Dewpoint = null;
@@ -36,6 +36,7 @@ public class Sensor {
     private String PcRate = null;
     private String PcAccum = null;
     private String Visibility = null;
+
 
 
 
@@ -129,7 +130,6 @@ public class Sensor {
         if (o == null || getClass() != o.getClass()) return false;
         Sensor sensor = (Sensor) o;
         return Objects.equals(Siteid, sensor.Siteid) &&
-                Objects.equals(District, sensor.District) &&
                 Objects.equals(DtTm, sensor.DtTm) &&
                 Objects.equals(AirTemp, sensor.AirTemp) &&
                 Objects.equals(Dewpoint, sensor.Dewpoint) &&
@@ -155,6 +155,7 @@ public class Sensor {
                 Objects.equals(icepct, sensor.icepct) &&
                 Objects.equals(subsftemp, sensor.subsftemp) &&
                 Objects.equals(waterlevel, sensor.waterlevel) &&
+                Objects.equals(District, sensor.District) &&
                 Objects.equals(town_name, sensor.town_name) &&
                 Objects.equals(sensor_location, sensor.sensor_location) &&
                 Objects.equals(additional_info, sensor.additional_info);
@@ -181,21 +182,20 @@ public class Sensor {
     }
 
 
-
-    public ArrayList<String> getDistrict() {
-        return District;
-    }
-
-    public void setDistrict(ArrayList<String> district) {
-        District = district;
-    }
-
     public String getSiteid() {
         return Siteid;
     }
 
     public void setSiteid(String siteid) {
         Siteid = siteid;
+    }
+
+    public String getDistrict() {
+        return District;
+    }
+
+    public void setDistrict(String district) {
+        District = district;
     }
 
     public String getDtTm() {
@@ -402,7 +402,6 @@ public class Sensor {
     public void setWaterlevel(ArrayList<String> waterlevel) {
         this.waterlevel = waterlevel;
     }
-
 
     public void setAdditional_info(ArrayList<String> additional_info) {
         this.additional_info = additional_info;

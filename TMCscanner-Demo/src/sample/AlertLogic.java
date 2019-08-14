@@ -1,18 +1,12 @@
 package sample;
 
-
-
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.*;
 import java.util.ArrayList;
 
 import static java.lang.Math.abs;
-import static sample.Controller.*;
 
 /**
  * ALERTLOGIC
@@ -37,19 +31,16 @@ public class AlertLogic {
     static ArrayList<TableRow> genRows = new ArrayList<>();
     static ArrayList<TableRow> prioRows = new ArrayList<>();
 
-    private static HashMap<String, Integer> AssignedClosures = new HashMap<>(); //<Sensor ID, SectionID>
-    private static HashMap<Integer, WindClosures> WindClosureSections = new HashMap<>(); //<SectionID, WindClosures object>
+    static HashMap<String, Integer> AssignedClosures = new HashMap<>(); //<Sensor ID, SectionID>
+    static HashMap<Integer, WindClosures> WindClosureSections = new HashMap<>(); //<SectionID, WindClosures object>
 
-    private static Parameters para = new Parameters();
+    public static Parameters para = new Parameters();
 
     //Stores the settings created from settingsController
-    static boolean settingsEnabled[] = new boolean[7];
+    public static Boolean settingsEnabled[] = new Boolean[7];
 
     //generic sensor
-    private static Sensor tempSensor;
-
-    //Message name for tables
-    private static String m;
+    private static Sensor tempSensor, oldSensor;
 
 
     /**
@@ -60,11 +51,9 @@ public class AlertLogic {
         try {
             int sectionID = 0;
             InputStream file1 = AlertLogic.class.getResourceAsStream("wind_closures.txt");
-            //System.out.println(Controller.jarPath + "wind_closures.txt");
-            //File file1 = new File(Controller.jarPath + "wind_closures.txt");
             String[] token_values;
             String current_line;
-            Scanner inStream = new Scanner(file1, String.valueOf(StandardCharsets.UTF_8));
+            Scanner inStream = new Scanner(file1, "UTF-8");
             inStream.useDelimiter("\n");
             inStream.next(); //Ignore first line
             while(inStream.hasNextLine()) {
@@ -86,7 +75,6 @@ public class AlertLogic {
             }
         } catch (NumberFormatException e) {
             System.out.println("Error in setWind");
-            e.printStackTrace();
         }
     }
 
@@ -105,7 +93,7 @@ public class AlertLogic {
      */
     public static void timedEvent(String key){
 
-        Sensor s = SensorMap.get(key);
+        Sensor s = Controller.getSensorMap().get(key);
         System.out.println(" EBOR " + s.getTown_name() + " " + s.getSensor_location());
         System.out.println("Event created at " + Instant.now());
         if(!timed_events.containsKey(key)) {
@@ -113,16 +101,16 @@ public class AlertLogic {
                 int acKey = AssignedClosures.get(key);
                 WindClosures tempW = WindClosureSections.get(acKey);
                 if (tempW.getEborCount() == 0) {
-                    m = "Dangerous Wind 60+ MPH (@" + s.getSpdGust() + " MPH)";
-                    setTableRow(key, prioRows, m, true);
-                    m = "Close road section " + tempW.getMessageName();
-                    setTableRow(prioRows, m, true);
+                    setTableRow(key, prioRows, "Dangerous Wind 60+ MPH (@"
+                            + s.getSpdGust() + " MPH)", true);
+                    setTableRow(prioRows, "Close road section "
+                            + tempW.getMessageName(), true);
                 }
                 tempW.incrementEborCount();
                 WindClosureSections.put(acKey, tempW);
             } else {
-                m = "Dangerous Wind 60+ MPH (@" + s.getSpdGust() + " MPH)";
-                setTableRow(key, prioRows, m, true);
+                setTableRow(key, prioRows, "Dangerous Wind 60+ MPH (@"
+                        + s.getSpdGust() + " MPH)", true);
             }
         }else{
             timed_events.remove(key);
@@ -131,35 +119,36 @@ public class AlertLogic {
         TimerTask task = new TimerTask() {
             public void run() {
                 if (!AssignedClosures.containsKey(key)) {
-                    m = "Drop Dangerous Winds (@" + s.getSpdGust() + " MPH)";
-                    setTableRow(key, prioRows,m, true);
+                    setTableRow(key, prioRows, "Drop Dangerous Winds (@"
+                            + s.getSpdGust() + " MPH)", true);
                 } else {
                     int acKey = AssignedClosures.get(key);
                     WindClosures tempW = WindClosureSections.get(acKey);
                     tempW.decrementEborCount();
                     WindClosureSections.put(acKey, tempW);
                     if (tempW.getEborCount() <= 0) {
-                        m = "Remove Dangerous Wind (@" + s.getSpdGust() + " MPH)";
-                        setTableRow(key, prioRows, m, true);
-                        m = "Open road section " + tempW.getMessageName();
-                        setTableRow(prioRows, m, true);
+                        setTableRow(key, prioRows, "Remove Dangerous Wind (@"
+                                + s.getSpdGust() + " MPH)", true);
+                        setTableRow(prioRows, "Open road section "
+                                + tempW.getMessageName(), true);
                     }
                 }
             }
         };
         Timer timer = new Timer(key);
 
-        long delay = Long.parseLong(para.getParam("EborDropTime")) * 60000L;
+        long delay = Long.parseLong(para.getParam("EBOR")) * 60000L;
         timer.schedule(task, delay);
         timed_events.put(key, timer);
     }
 
 
 
+
     /**
      * setTableRow
      * Creates a row of elements to add to Tableview
-     * @param key-- id of a sensor, i.e 178008
+     * @param key -- id of a sensor, i.e 178008
      * @param rowType -- "genRows" or "prioRows"
      * @param message -- Event to read to user, such as "Drop black ice"
      * @param setAlarm -- If settings specify, choose to/not to ring alarm on event
@@ -170,10 +159,19 @@ public class AlertLogic {
             Date dNow = new Date( );
             SimpleDateFormat ft = new SimpleDateFormat ("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
 
-            Sensor sen = SensorMap.get(key);
-            for(int i = 0; i < sen.getDistrict().size(); i++){
-                genericTR = new TableRow();
-                genericTR.setDistrict(sen.getDistrict().get(i));
+            Sensor sen = Controller.getSensorMap().get(key);
+            genericTR = new TableRow();
+            genericTR.setDistrict(sen.getDistrict());
+            genericTR.setLocation(sen.getTown_name());
+            genericTR.setSensor(sen.getSensor_location());
+            genericTR.setMessage(message);
+            genericTR.setTime(ft.format(dNow));
+            genericTR.setSoundAlert(setAlarm);
+            rowType.add(genericTR);
+
+            if(Controller.getDuplicateSensors().containsKey(key)){
+                sen = Controller.getDuplicateSensors().get(key);
+                genericTR.setDistrict(sen.getDistrict());
                 genericTR.setLocation(sen.getTown_name());
                 genericTR.setSensor(sen.getSensor_location());
                 genericTR.setMessage(message);
@@ -181,14 +179,10 @@ public class AlertLogic {
                 genericTR.setSoundAlert(setAlarm);
                 rowType.add(genericTR);
             }
-            if(rowType == prioRows){
-                Controller.LOGGER.info(sen.getDistrict() + ": " + key + " " + sen.getSensor_location() + " "
-                        + sen.getTown_name() + message);
-            }
+
         } catch (Exception e) {
             System.out.println("Error in setTableRow");
         }
-
 
     }
 
@@ -205,7 +199,7 @@ public class AlertLogic {
 
         try {
             //loop districts and create TR
-            //Note: this creates the message for all districts.
+            //Note: this creates the message for all districts. May want to change later.
             genericTR = new TableRow();
             genericTR.setDistrict("0");
             genericTR.setLocation(" ");
@@ -214,7 +208,6 @@ public class AlertLogic {
             genericTR.setTime(ft.format(dNow));
             genericTR.setSoundAlert(setAlarm);
             rowType.add(genericTR);
-            Controller.LOGGER.info("0: " + message);
         } catch (Exception e) {
             System.out.println("Error in setTableRow");
         }
@@ -232,7 +225,7 @@ public class AlertLogic {
      */
     public static void initialSet() {
         try {
-            for(Map.Entry<String, Sensor> entry : SensorMap.entrySet()){
+            for(Map.Entry<String, Sensor> entry : Controller.getSensorMap().entrySet()){
                 tempSensor = entry.getValue();
                 String key = entry.getKey();
 
@@ -252,7 +245,7 @@ public class AlertLogic {
                     }
                 }
 
-                boolean hasBI = false;
+                Boolean hasBI = false;
                 String precipitation = tempSensor.getPcType();
                 String rh = tempSensor.getRh();
                 for (int i = 0; i < tempSensor.getSftemp().size(); i++) {
@@ -288,19 +281,14 @@ public class AlertLogic {
      */
     public static void execute() {
         try {
-            for(Map.Entry<String, Sensor> entry : SensorMap.entrySet()){
+            for(Map.Entry<String, Sensor> entry : Controller.getSensorMap().entrySet()){
                 tempSensor = entry.getValue();
                 String key = entry.getKey();
-                Sensor oldSensor = OldData.get(key);
+                oldSensor = Controller.getOldData().get(key);
 
                 if (!nullTerms.contains(tempSensor.getSpdGust())){
                     int newSpeed = Integer.parseInt(tempSensor.getSpdGust());
-                    int oldSpeed;
-                    if(nullTerms.contains(oldSensor.getSpdGust())){ //Error check for old speed
-                        oldSpeed = newSpeed;
-                    }else {
-                        oldSpeed = Integer.parseInt(oldSensor.getSpdGust());
-                    }
+                    int oldSpeed = Integer.parseInt(oldSensor.getSpdGust());
                     if(newSpeed >= 60 && newSpeed < 120){ //Do event regardless of old speed
                         timedEvent(key);
                     }else if((newSpeed < 60 && newSpeed >= 50) && timed_events.containsKey(key)){
@@ -311,22 +299,22 @@ public class AlertLogic {
                             if(newSpeed >= 45 && oldSpeed < 60){
                                 int dif = abs(newSpeed - oldSpeed);
                                 if(dif >= 5){
-                                    m = "Wind Gusts changed from " + oldSpeed + " to " + newSpeed;
-                                    setTableRow(key, genRows, m, false);
+                                    setTableRow(key, genRows, "Wind Gusts changed from "
+                                            + oldSpeed + " to " + newSpeed, false);
                                 }
                             }
                         }
                         if( newSpeed >= 40 && oldSpeed < 40 && !wind40.contains(key)){
-                            m = "Wind Gusts 40+ MPH (@" + newSpeed + " MPH)";
-                            setTableRow(key, prioRows, m, !settingsEnabled[3]);
+                            setTableRow(key, prioRows, "Wind Gusts 40+ MPH (@"
+                                    + newSpeed + " MPH)", !settingsEnabled[3]);
                             wind40.add(key);
                         } else if( newSpeed < 30 && wind40.contains(key)){
                             if(!settingsEnabled[2]){
-                                m = "Drop High Wind (@" + newSpeed + " MPH)";
-                                setTableRow(key, genRows, m, false);
+                                setTableRow(key, genRows, "Drop High Wind (@"
+                                        + newSpeed + " MPH)", false);
                             }else{
-                                m = "Drop High Wind (@" + newSpeed + " MPH)";
-                                setTableRow(key, prioRows, m, false);
+                                setTableRow(key, prioRows, "Drop High Wind (@"
+                                        + newSpeed + " MPH)", false);
                             }
                             wind40.remove(key);
                         }
@@ -337,22 +325,22 @@ public class AlertLogic {
                     int newVis = Integer.parseInt(tempSensor.getVisibility());
                     if(newVis <= 400 && newVis > 0  && !lowVis.contains(key)){
                         lowVis.add(key);
-                        m =  "Low Visibility (@" + newVis + " ft.)";
-                        setTableRow(key, prioRows,m, settingsEnabled[5]);
+                        setTableRow(key, prioRows, "Low Visibility (@"
+                                + newVis + " ft.)", !settingsEnabled[5]);
                     }else if(newVis >= 720 && lowVis.contains(key)){
                         lowVis.remove(key);
                         if(!settingsEnabled[2]) {
-                            m = "Remove Low Visibility (@" + newVis + " ft.)";
-                            setTableRow(key, genRows, m, false);
+                            setTableRow(key, genRows, "Remove Low Visibility (@"
+                                    + newVis + " ft.)", false);
                         }else{
-                            m = "Remove Low Visibility (@" + newVis + " ft.)";
-                            setTableRow(key, prioRows, m, !settingsEnabled[5]);
+                            setTableRow(key, prioRows, "Remove Low Visibility (@"
+                                    + newVis + " ft.)", !settingsEnabled[5]);
                         }
                     }
                 }
 
 
-                boolean hasBI = false;
+                Boolean hasBI = false;
                 String newPrecipitation = tempSensor.getPcType();
                 String oldPrecipitation = oldSensor.getPcType();
                 String newIntensity= tempSensor.getPcIntens();
@@ -376,8 +364,8 @@ public class AlertLogic {
                         newPrecipitation = "None";
                     }
                     if(!settingsEnabled[0]) {
-                        m = "Precipitation changed from " + prioSensor + " to " + newPrecipitation + addOn;
-                        setTableRow(key, genRows, m, false);
+                        setTableRow(key, genRows, "Precipitation changed from " +
+                                prioSensor + " to " + newPrecipitation + addOn, false);
                     }
                 }
 
@@ -399,16 +387,13 @@ public class AlertLogic {
                 }
                 if(hasBI && !watchBI.contains(key)){
                     watchBI.add(key);
-                    m = "Watch for Black Ice";
-                    setTableRow(key, prioRows, m, !settingsEnabled[4]);
+                    setTableRow(key, prioRows, "Watch for Black Ice", !settingsEnabled[4]);
                 }else if(!hasBI && watchBI.contains(key)){
                     watchBI.remove(key);
                     if(!settingsEnabled[2]){
-                        m = "Remove Black Ice Warning";
-                    setTableRow(key, genRows, m, false);
+                    setTableRow(key, genRows, "Remove Black Ice Warning", false);
                     }else{
-                        m = "Remove Black Ice Warning";
-                        setTableRow(key, prioRows, m, !settingsEnabled[4]);
+                        setTableRow(key, prioRows, "Remove Black Ice Warning", !settingsEnabled[4]);
                     }
                 }
 
@@ -416,15 +401,6 @@ public class AlertLogic {
             }
         } catch (NumberFormatException e) {
             System.out.println("Error in execute");
-            e.printStackTrace();
-            Controller.LOGGER.severe("Error in execute: District "+ tempSensor.getDistrict() +
-                    tempSensor.getTown_name() + " " +
-                    tempSensor.getSensor_location());
-            Controller.LOGGER.warning("Wind: " + tempSensor.getSpdGust());
-            Controller.LOGGER.warning("Visibility: " + tempSensor.getVisibility());
-            Controller.LOGGER.warning("PC type: " + tempSensor.getPcType());
-            Controller.LOGGER.warning("RH: " + tempSensor.getRh());
-            Controller.LOGGER.warning("PC intensity: " + tempSensor.getPcIntens());
         }
     }
 

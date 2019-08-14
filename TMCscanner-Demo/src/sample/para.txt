@@ -1,5 +1,12 @@
 Max Visibility:-6560
 High Wind:-40
-EborDropTime:-60
+Strong Wind:-50
+EBOR:-60
 RefreshTime:-15
-Audio filename:-alert.mp3
+Audio filename:-null
+FTP Link:-null
+FTP User:-null
+FTP Pass:-null
+Server Link:-http:null
+CSV1Link:-http:null
+CSV2Link:-http:null

@@ -1,5 +1,7 @@
 package sample;
 
+import java.util.ArrayList;
+
 
 /**
  * WINDCLOSURES CLASS
@@ -8,7 +10,10 @@ package sample;
  */
 public class WindClosures {
 
+
+    //private ArrayList<String> sensorlist = new ArrayList<>();
     private String messageName = "";
+    //private int listLength = 0;
     private Boolean hasEBOR = false;
 
 
@@ -46,7 +51,5 @@ public class WindClosures {
     public void setMessageName(String messageName) {
         this.messageName = messageName;
     }
-
-
 
 }

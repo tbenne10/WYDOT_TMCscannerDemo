@@ -1,32 +1,43 @@
 package sample;
+import com.jfoenix.controls.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
+
 
 import static java.lang.Integer.parseInt;
 
@@ -34,26 +45,30 @@ import static java.lang.Integer.parseInt;
 
 public class Controller{
 
+    //Parameters class
+    private static Parameters para = new Parameters();
 
-    public static Logger LOGGER;
+    //Alert Logic class
+    private static AlertLogic Logic = new AlertLogic();
 
-    //Public SensorMap: maps sensor ID with relative sensor class object
-    public static HashMap<String, Sensor> SensorMap = new HashMap<>();
+    //SensorMap: maps sensor ID with relative sensor class object
+    private static HashMap<String, Sensor> SensorMap = new HashMap<>();
 
-    //Public OldData: Used for comparing in AlertLogic
-    public static HashMap<String, Sensor> OldData = new HashMap<>();
+    //Store duplicate sensor IDs to retrieve and set additional tablerows.
+    private static HashMap<String, Sensor> DuplicateSensors = new HashMap<>();
+
+    //OldData: Used for comparing in AlertLogic
+    private static HashMap<String, Sensor> OldData = new HashMap<>();
 
     //used to store the results from AlertLogic.execute()
-    public static ArrayList<TableRow> generalRows = new ArrayList<>();
+    private static ArrayList<TableRow> generalRows = new ArrayList<>();
 
     //used to store the results from AlertLogic.execute()
-    public static ArrayList<TableRow> priorityRows = new ArrayList<>();
+    private static ArrayList<TableRow> priorityRows = new ArrayList<>();
 
-    private CheckBox[] check_boxes = new CheckBox[5];
+    private JFXCheckBox[] check_boxes = new JFXCheckBox[5];
 
     private static boolean shutdown = false;
-
-    public static String jarPath;
 
 
     @FXML
@@ -70,53 +85,55 @@ public class Controller{
 
 
     @FXML
-    private CheckBox d1_checkbox, d2_checkbox, d3_checkbox, d4_checkbox, d5_checkbox;
+    private JFXCheckBox d1_checkbox, d2_checkbox, d3_checkbox, d4_checkbox, d5_checkbox;
+
+    @FXML
+    private JFXSpinner spinner;
 
     @FXML
     private Text refreshing;
 
     @FXML
-    private Slider volume;
+    private JFXSlider volume;
 
     @FXML
-    private MenuItem settings_m, close_m, help_m;
+    private MenuItem settings_m, close_m, history_m, help_m;
 
 
 
     @FXML
-    private void checkClick(ActionEvent event) {
+    void checkClick(ActionEvent event) {
         checkBoxAction();
     }
 
     /**
      * Set the alarm for when priority events occur
      * */
-    private MediaPlayer mPlayer;
-
+    MediaPlayer mPlayer;
 
     /**BUTTON METHODS*/
-    public void clear_click(){
+    public void clear_click(javafx.scene.input.MouseEvent mouseEvent) {
         generalTable.getItems().clear();
         generalRows.clear();
         AlertLogic.genRows.clear();
     }
 
-    public void acknowledge_click() {
-        for(TableRow t:priorityRows){
-            t.setFlashAlert(false);
+    public void acknowledge_click(javafx.scene.input.MouseEvent mouseEvent) {
+        for(TableRow t:priorityRows) {
             t.setSoundAlert(false);
+            t.setFlashAlert(false);
         }
         mPlayer.stop(); //Stop alarm sound
     }
 
-    public void select_all() {
-        boolean allSelected = true;
-        for(CheckBox b:check_boxes) if (!b.isSelected()) allSelected = false;
+    public void select_all(javafx.scene.input.MouseEvent mouseEvent) {
+        Boolean allSelected = true;
+        for(JFXCheckBox b:check_boxes) if (b.isSelected() == false) allSelected = false;
 
-        if(allSelected){
-            for(CheckBox b:check_boxes) b.setSelected(false);
+        if(allSelected == true){
+            for(JFXCheckBox b:check_boxes) b.setSelected(false);
         }else{
-            for(CheckBox b:check_boxes) b.setSelected(true);
+            for(JFXCheckBox b:check_boxes) b.setSelected(true);
         }
 
         checkBoxAction();
@@ -128,10 +145,10 @@ public class Controller{
      * this function cleans the table items and adds them for district boxes are checked.
      * I.e, if a user clicks only district one, it will clean the other district rows off the table.
      */
-    private void checkBoxAction(){
+    public void checkBoxAction(){
 
-        if(!generalTable.getItems().isEmpty()){generalTable.getItems().clear();}
-        if(!priorityTable.getItems().isEmpty()){priorityTable.getItems().clear();}
+       if(!generalTable.getItems().isEmpty()){generalTable.getItems().clear();}
+       if(!priorityTable.getItems().isEmpty()){priorityTable.getItems().clear();}
 
         for(TableRow tg:generalRows){
             try{
@@ -144,7 +161,6 @@ public class Controller{
                 }
             }catch(NumberFormatException | NullPointerException nfe){
                 System.out.println("number exception");
-                nfe.printStackTrace();
                 return;
             }
         }
@@ -152,28 +168,19 @@ public class Controller{
             try{
                 int district = Integer.parseInt(tp.getDistrict());
                 if(district >= 0 && district <= 5){
-                    if(district == 0){
-                        priorityTable.getItems().add(tp);
-                        if(tp.isSoundAlert()) mPlayer.play();
-                        tp.setSoundAlert(false);
-                    }
-                    else if(AlertLogic.settingsEnabled[6]){ //If Lead Operator Mode enabled
+                    if(district == 0) priorityTable.getItems().add(tp);
+                    else if(Logic.settingsEnabled[6]){ //If Lead Operator Mode enabled
                         priorityTable.getItems().add(tp);
                         if(check_boxes[Integer.parseInt(tp.getDistrict()) - 1].isSelected()
-                                && tp.isSoundAlert()){
-                            mPlayer.play();
-                            tp.setSoundAlert(false);
-                        }
+                             && tp.isSoundAlert()) mPlayer.play();
                     }
-                    else if(check_boxes[Integer.parseInt(tp.getDistrict()) - 1].isSelected()){ //default
+                    else if(check_boxes[Integer.parseInt(tp.getDistrict()) - 1].isSelected()){
                         priorityTable.getItems().add(tp);
                         if(tp.isSoundAlert()) mPlayer.play();
-                        tp.setSoundAlert(false);
                     }
                 }
             }catch(NumberFormatException | NullPointerException nfe){
                 System.out.println("number exception");
-                nfe.printStackTrace();
                 return;
             }
         }
@@ -184,7 +191,7 @@ public class Controller{
      * Shutdown
      * Called by Main when application is closed. Used to destroy threads
      * */
-    void Shutdown(){
+    public void Shutdown(){
         shutdown = true;
     }
 
@@ -193,18 +200,21 @@ public class Controller{
      * Close_event
      * Menu item: exit
      */
-    private EventHandler<ActionEvent> close_event = e -> {
-        shutdown = true;
-        System.exit(1);
+    private EventHandler<ActionEvent> close_event = new EventHandler<ActionEvent>() {
+        public void handle(ActionEvent e)
+        {
+            shutdown = true;
+            System.exit(1);
+        }
     };
 
     /**
      * Settings_event
-     * Menu item: exit
+     * Menu item: settings
      */
-    private EventHandler<ActionEvent> settings_event = new EventHandler<ActionEvent>() {
-        @Override
-        public void handle(ActionEvent event) {
+    private EventHandler<ActionEvent> settings_event = new EventHandler<>() {
+        public void handle(ActionEvent e) {
+
             FXMLLoader settings_window = new FXMLLoader();
             settings_window.setLocation(getClass().getResource("settings.fxml"));
             Scene scene = null;
@@ -217,6 +227,7 @@ public class Controller{
             stage.setTitle("Settings");
             stage.setScene(scene);
             stage.show();
+
         }
     };
 
@@ -224,7 +235,7 @@ public class Controller{
      * Help_event
      * Menu item: help
      */
-    private EventHandler<ActionEvent> help_event = new EventHandler<ActionEvent>() {
+    private EventHandler<ActionEvent> help_event = new EventHandler<>() {
         public void handle(ActionEvent e) {
 
             FXMLLoader settings_window = new FXMLLoader();
@@ -233,7 +244,6 @@ public class Controller{
             try {
                 scene = new Scene(settings_window.load());
             } catch (IOException e1) {
-                e1.printStackTrace();
                 System.out.println("Failed to load help window");
             }
             Stage stage = new Stage();
@@ -244,52 +254,16 @@ public class Controller{
         }
     };
 
-
     /**
      * Initialize
      * All the magic happens here
      * */
     @FXML
-    public void initialize() throws IOException, URISyntaxException {
+    public void initialize() throws URISyntaxException {
 
-        /**
-         * Set path of jar file where files are located
-         */
         File file = new File(Controller.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
-        jarPath = file.getParent() + File.separator + "Resources" + File.separator;
-        System.setProperty("userApp.root", jarPath);
-        System.out.println(jarPath);
-
-
-        /**
-         * Declare new Parameters class for reading para.txt
-         */
-        Parameters para = new Parameters();
-
-        /**
-         * Configure Logger
-         */
-        LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-        try{
-        LoggerUtil.setup();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Problems with creating the log files");
-        }
-        LOGGER.info(">....Application Start");
-
-        /**
-         * Set media player to play audio from parameter rather than default
-         */
-        Media mp3MusicFile = new Media(getClass().getResource("alert.mp3").toExternalForm());
-        //TODO: Fix pathing of sound file
-        //String MP3path = para.getParam("Audio filename");
-        //Media mp3MusicFile = new Media(jarPath + MP3path);
-        mPlayer = new MediaPlayer(mp3MusicFile);
-        mPlayer.setAutoPlay(true);
-        mPlayer.setVolume(.75);   // from 0 to 1
-        mPlayer.stop();
-        mPlayer.setOnEndOfMedia(() -> mPlayer.seek(Duration.ZERO));
+        File in = new File(file.getParent() + "/para.txt");
+        System.out.println(in.getAbsolutePath());
 
         /**
          * Set volume listener
@@ -298,11 +272,28 @@ public class Controller{
                 -> mPlayer.setVolume(volume.getValue()/100));
 
         /**
+         * Set media player to play audio from parameter rather than default
+         */
+        Media mp3MusicFile = new Media(getClass().getResource("alert.mp3").toExternalForm());
+        //String MP3path = para.getParam("Audio filename");
+        //Media mp3MusicFile = new Media(jarPath + MP3path);
+        mPlayer = new MediaPlayer(mp3MusicFile);
+        mPlayer.setAutoPlay(true);
+        mPlayer.setVolume(.75);   // from 0 to 1
+        mPlayer.stop();
+        mPlayer.setOnEndOfMedia(new Runnable() {
+            public void run() {
+                mPlayer.seek(Duration.ZERO);
+            }
+        });
+
+        /**
          * Set menu item listeners
          */
         close_m.setOnAction(close_event);
         settings_m.setOnAction(settings_event);
         help_m.setOnAction(help_event);
+
 
         /**
          * Initialize checkboxes
@@ -318,8 +309,8 @@ public class Controller{
         d4_checkbox.setOnAction(this::checkClick);
         d5_checkbox.setOnAction(this::checkClick);
 
-        for(CheckBox cb:check_boxes){
-            cb.setSelected(true);
+        for(JFXCheckBox cb:check_boxes){
+        cb.setSelected(true);
         }
 
 
@@ -410,15 +401,18 @@ public class Controller{
         AtomicInteger k = new AtomicInteger();
         k.getAndIncrement();
 
+
         /**
          * Set initial data
          */
         SensorUtility s_util = new SensorUtility();
         s_util.setLocations(); //Done only once
+
         OldData = s_util.getData(k.get()); //OldData won't change in this statement. Only used to initialize SensorData.
+        //OldData = s_util.getData();
+        spinner.setVisible(false);
         refreshing.setVisible(false);
         AlertLogic.initialSet();
-
 
 
         /**
@@ -433,9 +427,8 @@ public class Controller{
             if (shutdown) sched.shutdownNow();
 
             k.getAndIncrement();
-
+            spinner.setVisible(true);
             refreshing.setVisible(true);
-
             OldData = s_util.getData(k.get());
             AlertLogic.execute();
             generalRows.clear();
@@ -447,31 +440,53 @@ public class Controller{
                 priorityRows.add(0, AlertLogic.prioRows.get(i));
             }
             checkBoxAction();
+            spinner.setVisible(false);
             refreshing.setVisible(false);
 
         }, delay, delay, TimeUnit.SECONDS);
 
-        /**
-         * Error Thread
-         * If system is in error for a given time, shut down the program.
-         * Waits 45 seconds after error occurs
-         */
-        AtomicInteger errorcount = new AtomicInteger();
-        ScheduledExecutorService errorChecker = Executors.newScheduledThreadPool(2);
-        errorChecker.scheduleAtFixedRate(()->{
-            if(shutdown) errorChecker.shutdownNow();;
-            if(refreshing.isVisible()){
-                errorcount.getAndIncrement();
-            }else{
-                errorcount.set(0);
-            }
-            if(errorcount.get() >= 3){
-                Shutdown();
-                System.exit(1);
-            }
-        }, 5, 15, TimeUnit.SECONDS);
-
 
     } //End of initialize()
+
+
+    /**
+     * Getters and Setters
+     */
+    public static Parameters getPara() {
+        return para;
+    }
+
+    public static AlertLogic getLogic() {
+        return Logic;
+    }
+
+    public static void setLogic(AlertLogic logic) {
+        Logic = logic;
+    }
+
+    public static HashMap<String, Sensor> getSensorMap() {
+        return SensorMap;
+    }
+
+
+    public static HashMap<String, Sensor> getDuplicateSensors() {
+        return DuplicateSensors;
+    }
+
+
+    public static HashMap<String, Sensor> getOldData() {
+        return OldData;
+    }
+
+
+    public static ArrayList<TableRow> getGeneralRows() {
+        return generalRows;
+    }
+
+
+    public static ArrayList<TableRow> getPriorityRows() {
+        return priorityRows;
+    }
+
 
 }
